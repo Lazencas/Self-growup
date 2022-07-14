@@ -11,21 +11,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView TimeTextView, MySalary, MyTotalTime;
+    TextView TimeTextView, MySalary, MyTotalTime, ProgressText;
     int StudyTime;
     int HourTimeMoney = 30000;
     String shared = "file";
     Button TimeInput, TimeEdit;
     String salary;
-
-
+    ImageView TierImage;
+    long iron, bronze=12000000L, silver=24000000L;
+    long gold=36000000L, platinum=60000000L;
+    long diamond=200000000L, master=600000000L;
+    long grandmaster=1200000000L;
+    long challenger = 2100000000L;
 
 
     @Override
@@ -38,15 +45,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+        //프로그레스바 액티비티랑 자바 연결
+        ProgressBar progress = (ProgressBar)findViewById(R.id.TierProgressBar);
+
+        //프로그레스바 텍스트 자바 연결
+        ProgressText = (TextView)findViewById(R.id.ProgressTextView);
+
         //화면 오른쪽 상단의 현재시간을 표시하는 텍스트뷰
         TimeTextView = (TextView) findViewById(R.id.Today);
         TimeTextView.setText((getTime()));
 
         //누적시간 표시
         MyTotalTime = (TextView)findViewById(R.id.MyTotalTime);
+
         //쉐어드프리퍼런스에서 누적시간 불러와서 표시
         String value = sharedPreferences.getString("StackTime", "");
         MyTotalTime.setText(value);
+
+        //티어이미지판별에 넣을 값을 위한 계산
+        long sallplus1 = Long.parseLong(value);
+        Long TierJ = sallplus1 * HourTimeMoney;
+
+        //티어이미지 액티비티랑 연결
+        TierImage = (ImageView)findViewById(R.id.TierImageView);
+        getTier(TierJ);
 
         //시간입력버튼
         TimeInput = (Button)findViewById(R.id.TimeInputButton);
@@ -79,17 +102,54 @@ public class MainActivity extends AppCompatActivity {
 
                         //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
                         String value33 = sharedPreferences.getString("StackTime", "");
-                        int salaryplus = parseInt(value33);
-                        int sal =  salaryplus * HourTimeMoney;
+                        long salaryplus = Long.parseLong(value33);
+                        long sal =  salaryplus * HourTimeMoney;
+
+                        //티어에 맞게 이미지 수정
+                        getTier(sal);
+
                         //계산후 다시 문자열로 변환
                         salary = String.valueOf(sal);
                         MySalary.setText(salary);
 
+                        //계산값 연봉 프로그레스바에 반영
+                        int salI = (int)sal;
+                        progress.setProgress(salI);
+
+
+                        //프로그레스바 진척도 반영
+                        float sala = (float)sal;
+                        float progress;
+                        if(sal<=12000000){
+                            progress = (sala/12000000)*100;
+                        }
+                        else if(sal<=24000000){
+                            progress = (sala/24000000)*100;
+                        }
+                        else if(sal<=36000000){
+                            progress = (sala/36000000)*100;
+                        }
+                        else if(sal<=60000000){
+                            progress = (sala/60000000)*100;
+                        }
+                        else if(sal<=200000000){
+                            progress = (sala/200000000)*100;
+                        }
+                        else if(sal<=600000000){
+                            progress = (sala/600000000)*100;
+                        }
+                        else if(sal<=1200000000){
+                            progress = (sala/1200000000)*100;
+                        }
+                        else{
+                            progress = (sala/3000000000l)*100;
+                        }
+                        String pro = String.valueOf(progress);
+                        ProgressText.setText(pro+"%");
+
                         //수정된 값의 새로고침을 위하여 바로 쉐어드프리퍼런스에서 값을 불러와서 세팅한다.
                         String value11 = sharedPreferences.getString("StackTime", "");
                         MyTotalTime.setText(value11);
-
-
                         dialogInterface.dismiss();
                     }
                 });
@@ -105,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
         //시간수정버튼
         TimeEdit = (Button)findViewById(R.id.TimeEditButton);
@@ -131,11 +190,51 @@ public class MainActivity extends AppCompatActivity {
 
                         //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
                         String value33 = sharedPreferences.getString("StackTime", "");
-                        int salaryplus = parseInt(value33);
-                        int sal =  salaryplus * HourTimeMoney;
+                        long salaryplus = Long.parseLong(value33);
+                        long sal =  salaryplus * HourTimeMoney;
+
+                        //티어에 맞게 이미지 수정
+                        getTier(sal);
+
                         //계산후 다시 문자열로 변환
                         salary = String.valueOf(sal);
                         MySalary.setText(salary);
+
+                        //프로그레스바에 연봉 반영
+                        int salI = (int)sal;
+                        progress.setProgress(salI);
+
+                        //프로그레스바 진척도 반영
+                        float sala = (float)sal;
+                        float progress;
+                        if(sal<=12000000){
+                            progress = (sala/12000000)*100;
+                        }
+                        else if(sal<=24000000){
+                            progress = (sala/24000000)*100;
+                        }
+                        else if(sal<=36000000){
+                            progress = (sala/36000000)*100;
+                        }
+                        else if(sal<=60000000){
+                            progress = (sala/60000000)*100;
+                        }
+                        else if(sal<=200000000){
+                            progress = (sala/200000000)*100;
+                        }
+                        else if(sal<=600000000){
+                            progress = (sala/600000000)*100;
+                        }
+                        else if(sal<=1200000000){
+                            progress = (sala/1200000000)*100;
+                        }
+                        else{
+                            progress = (sala/3000000000l)*100;
+                        }
+                        String pro = String.valueOf(progress);
+                        ProgressText.setText(pro+"%");
+
+
 
                         //수정된 값의 새로고침을 위하여 바로 쉐어드프리퍼런스에서 값을 불러와서 세팅한다.
                         String value1 = sharedPreferences.getString("StackTime", "");
@@ -159,12 +258,11 @@ public class MainActivity extends AppCompatActivity {
         MySalary = (TextView) findViewById(R.id.MySalaryTextView);
         //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
         String value33 = sharedPreferences.getString("StackTime", "");
-        int salaryplus = parseInt(value33);
-        int sal =  salaryplus * HourTimeMoney;
+        long salaryplus = Long.parseLong(value33);
+        long sal =  salaryplus * HourTimeMoney;
         //계산후 다시 문자열로 변환
         salary = String.valueOf(sal);
         MySalary.setText(salary);
-
 
 
     }
@@ -176,6 +274,48 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
         String getTime = dateFormat.format(date);
         return getTime;
+    }
+
+    //연봉에따른 티어 판별 함수
+    private void getTier(long sal){
+        String Tier = "";
+        if(sal<12000000){
+            Tier = "iron";
+            TierImage.setImageResource(R.drawable.iron);
+        }
+        else if(sal<24000000){
+            Tier = "bronze";
+            TierImage.setImageResource(R.drawable.bronze);
+        }
+        else if(sal<36000000){
+            Tier = "silver";
+            TierImage.setImageResource(R.drawable.silver);
+        }
+        else if(sal<60000000){
+            Tier = "gold";
+            TierImage.setImageResource(R.drawable.gold);
+        }
+        else if(sal<200000000){
+            Tier = "platinum";
+            TierImage.setImageResource(R.drawable.platinum);
+        }
+        else if(sal<600000000){
+            Tier = "diamond";
+            TierImage.setImageResource(R.drawable.diamond);
+        }
+        else if(sal<1200000000){
+            Tier = "master";
+            TierImage.setImageResource(R.drawable.master);
+        }
+        else if(sal<3000000000l){
+            Tier = "grandmaster";
+            TierImage.setImageResource(R.drawable.grandmaster);
+        }
+        else{
+            Tier = "challenger";
+            TierImage.setImageResource(R.drawable.challenger);
+        }
+
     }
 
     @Override
