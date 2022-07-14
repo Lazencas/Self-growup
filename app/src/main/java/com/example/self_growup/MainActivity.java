@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         //프로그레스바 액티비티랑 자바 연결
         ProgressBar progress = (ProgressBar)findViewById(R.id.TierProgressBar);
 
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
                 ad.setIcon(R.mipmap.ic_launcher);
-                ad.setMessage("수정할 시간을 입력하세요.");
+                ad.setMessage("공부한 시간을 입력하세요.");
 
                 final EditText et = new EditText(MainActivity.this);
                 ad.setView(et);
