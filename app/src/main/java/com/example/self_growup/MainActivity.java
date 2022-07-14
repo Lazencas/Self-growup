@@ -1,9 +1,12 @@
 package com.example.self_growup;
 
+import static java.lang.Integer.parseInt;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +18,12 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView TimeTextView, MySalary;
+    TextView TimeTextView, MySalary, MyTotalTime;
     int StudyTime;
     int HourTimeMoney = 30000;
     String shared = "file";
     Button TimeInput, TimeEdit;
-
+    String salary;
 
 
 
@@ -30,10 +33,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
 
         //화면 오른쪽 상단의 현재시간을 표시하는 텍스트뷰
         TimeTextView = (TextView) findViewById(R.id.Today);
         TimeTextView.setText((getTime()));
+
+        //누적시간 표시
+        MyTotalTime = (TextView)findViewById(R.id.MyTotalTime);
+        //쉐어드프리퍼런스에서 누적시간 불러와서 표시
+        String value = sharedPreferences.getString("StackTime", "");
+        MyTotalTime.setText(value);
 
         //시간입력버튼
         TimeInput = (Button)findViewById(R.id.TimeInputButton);
@@ -51,6 +64,32 @@ public class MainActivity extends AppCompatActivity {
                 ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //에디터텍스트에 입력된값을 가져와서 정수형으로 바꾼다.
+                        int plus1 = parseInt(et.getText().toString());
+
+                        //더할값을 쉐어드프리퍼런스에서 가져와서 정수형으로 바꾼다.
+                        String value2 = sharedPreferences.getString("StackTime", "");
+                        int plus2 = parseInt(value2);
+
+                        //두 값을 더하여서 나온값을 문자열로 바꾸고 쉐어드프리퍼런스에 저장하고, 불러온다.
+                        int newplus = plus1 + plus2;
+                        String newvalue = String.valueOf(newplus);
+                        editor.putString("StackTime",newvalue);
+                        editor.commit();
+
+                        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
+                        String value33 = sharedPreferences.getString("StackTime", "");
+                        int salaryplus = parseInt(value33);
+                        int sal =  salaryplus * HourTimeMoney;
+                        //계산후 다시 문자열로 변환
+                        salary = String.valueOf(sal);
+                        MySalary.setText(salary);
+
+                        //수정된 값의 새로고침을 위하여 바로 쉐어드프리퍼런스에서 값을 불러와서 세팅한다.
+                        String value11 = sharedPreferences.getString("StackTime", "");
+                        MyTotalTime.setText(value11);
+
+
                         dialogInterface.dismiss();
                     }
                 });
@@ -85,6 +124,22 @@ public class MainActivity extends AppCompatActivity {
                 ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                       //에디트텍스트에 입력한 값을 받아서 문자값으로 저장하고 그대로 쉐어드프리퍼런스에 푸시로 넣음
+                        String value = et.getText().toString();
+                        editor.putString("StackTime",value);
+                        editor.commit();
+
+                        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
+                        String value33 = sharedPreferences.getString("StackTime", "");
+                        int salaryplus = parseInt(value33);
+                        int sal =  salaryplus * HourTimeMoney;
+                        //계산후 다시 문자열로 변환
+                        salary = String.valueOf(sal);
+                        MySalary.setText(salary);
+
+                        //수정된 값의 새로고침을 위하여 바로 쉐어드프리퍼런스에서 값을 불러와서 세팅한다.
+                        String value1 = sharedPreferences.getString("StackTime", "");
+                        MyTotalTime.setText(value1);
                         dialogInterface.dismiss();
                     }
                 });
@@ -102,7 +157,13 @@ public class MainActivity extends AppCompatActivity {
 
         //연봉의 금액 값, 이 값에 따라 티어이미지도 바뀌고 프로그레스바도 바뀐다.
         MySalary = (TextView) findViewById(R.id.MySalaryTextView);
-        MySalary.setText("0");
+        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
+        String value33 = sharedPreferences.getString("StackTime", "");
+        int salaryplus = parseInt(value33);
+        int sal =  salaryplus * HourTimeMoney;
+        //계산후 다시 문자열로 변환
+        salary = String.valueOf(sal);
+        MySalary.setText(salary);
 
 
 
@@ -115,6 +176,13 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
         String getTime = dateFormat.format(date);
         return getTime;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
     }
 
 

@@ -7,6 +7,36 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/TotalTime"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="누적시간"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/TimeEditButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/MySalaryTextView"
+        app:layout_constraintTop_toBottomOf="@+id/TierProgressBar"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
+        android:id="@+id/MyTotalTime"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/TimeInputButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/SalaryTextView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TierProgressBar"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
         android:id="@+id/Today"
         android:layout_width="128dp"
         android:layout_height="36dp"
@@ -52,32 +82,32 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/MySalaryTextView"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="25dp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintBottom_toTopOf="@+id/TimeInputButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/SalaryTextView"
-        app:layout_constraintTop_toBottomOf="@+id/TierProgressBar"
-        app:layout_constraintVertical_bias="0.431" />
-
-    <TextView
         android:id="@+id/SalaryTextView"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
         android:text="연봉  "
         android:textSize="25dp"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@+id/TimeEditButton"
-        app:layout_constraintRight_toLeftOf="@id/MySalaryTextView"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/MySalaryTextView"
         app:layout_constraintTop_toBottomOf="@+id/TierProgressBar"
-        app:layout_constraintVertical_bias="0.431" />
+        app:layout_constraintVertical_bias="0.274" />
+
+    <TextView
+        android:id="@+id/MySalaryTextView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/TimeInputButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/SalaryTextView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TierProgressBar"
+        app:layout_constraintVertical_bias="0.274" />
 
     <TextView
         android:id="@+id/NextTierTextView"
