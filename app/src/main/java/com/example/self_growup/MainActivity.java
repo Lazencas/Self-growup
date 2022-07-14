@@ -63,13 +63,67 @@ public class MainActivity extends AppCompatActivity {
         String value = sharedPreferences.getString("StackTime", "");
         MyTotalTime.setText(value);
 
-        //티어이미지판별에 넣을 값을 위한 계산
-        long sallplus1 = Long.parseLong(value);
-        Long TierJ = sallplus1 * HourTimeMoney;
-
         //티어이미지 액티비티랑 연결
         TierImage = (ImageView)findViewById(R.id.TierImageView);
-        getTier(TierJ);
+        //getTier(TierJ);
+
+        //티어이미지판별에 넣을 값을 위한 계산
+        //long sallplus1 = Long.parseLong(value);
+        //Long TierJ = sallplus1 * HourTimeMoney;
+
+        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
+        String value333 = sharedPreferences.getString("StackTime", "");
+        long salaryplus = Long.parseLong(value333);
+        long sal =  salaryplus * HourTimeMoney;
+
+        //티어에 맞게 이미지 수정
+        getTier(sal);
+
+        //연봉의 금액 값, 이 값에 따라 티어이미지도 바뀌고 프로그레스바도 바뀐다.
+        MySalary = (TextView) findViewById(R.id.MySalaryTextView);
+        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
+        String valu33 = sharedPreferences.getString("StackTime", "");
+        long salaryplus12 = Long.parseLong(valu33);
+        long sal12 =  salaryplus12 * HourTimeMoney;
+        //계산후 다시 문자열로 변환
+        salary = String.valueOf(sal12);
+        MySalary.setText(salary);
+
+        //프로그레스바에 연봉 반영
+        int salIpp = (int)sal;
+        progress.setProgress(salIpp);
+
+        //프로그레스바 진척도 반영
+        float sala = (float)sal;
+        float progres;
+        if(sal<=12000000){
+            progres = (sala/12000000)*100;
+        }
+        else if(sal<=24000000){
+            progres = (sala/24000000)*100;
+        }
+        else if(sal<=36000000){
+            progres = (sala/36000000)*100;
+        }
+        else if(sal<=60000000){
+            progres = (sala/60000000)*100;
+        }
+        else if(sal<=200000000){
+            progres = (sala/200000000)*100;
+        }
+        else if(sal<=600000000){
+            progres = (sala/600000000)*100;
+        }
+        else if(sal<=1200000000){
+            progres = (sala/1200000000)*100;
+        }
+        else{
+            progres = (sala/3000000000l)*100;
+        }
+        String pr = String.valueOf(progres);
+        ProgressText.setText(pr+"%");
+
+
 
         //시간입력버튼
         TimeInput = (Button)findViewById(R.id.TimeInputButton);
@@ -254,15 +308,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //연봉의 금액 값, 이 값에 따라 티어이미지도 바뀌고 프로그레스바도 바뀐다.
-        MySalary = (TextView) findViewById(R.id.MySalaryTextView);
-        //계산을위해 시간값을 쉐어드프리퍼런스에서 불러와서 정수형으로 바꾼다
-        String value33 = sharedPreferences.getString("StackTime", "");
-        long salaryplus = Long.parseLong(value33);
-        long sal =  salaryplus * HourTimeMoney;
-        //계산후 다시 문자열로 변환
-        salary = String.valueOf(sal);
-        MySalary.setText(salary);
+
 
 
     }
